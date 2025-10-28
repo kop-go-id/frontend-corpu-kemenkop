@@ -3,6 +3,7 @@ import React from 'react'
 import Hero from '@/components/modules/landing-page/Hero'
 import Statistic from '@/components/modules/landing-page/Statistic'
 import About from '@/components/modules/landing-page/About'
+import Program from '@/components/modules/landing-page/Program'
 
 const Page = () => {
   return (
@@ -10,6 +11,7 @@ const Page = () => {
       <Hero />
       <Statistic />
       <About />
+      <Program />
     </main>
   )
 }
