@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useWindowSize } from '@/hooks/common'
 import Image from 'next/image'
 
 const ProgramCarousel = () => {
@@ -9,49 +10,58 @@ const ProgramCarousel = () => {
             {
                 id: 1,
                 title: 'Digital Cooperative Leadership Program (DCLP)',
+                description: 'Program kepemimpinan digital untuk pengurus dan manajer koperasi.',
                 // Using local placeholder asset; replace with real image later
                 src: '/images/landing-page/coder.svg',
             },
             {
                 id: 2,
                 title: 'Digital Cooperative Leadership Program (DCLP)',
+                description: 'Pengembangan kompetensi strategis dan literasi teknologi.',
                 src: '/images/landing-page/coder.svg',
             },
             {
                 id: 3,
                 title: 'Digital Cooperative Leadership Program (DCLP)',
+                description: 'Membekali talenta koperasi dengan keterampilan abad 21.',
                 src: '/images/landing-page/coder.svg',
             },
             {
                 id: 4,
                 title: 'Digital Cooperative Leadership Program (DCLP)',
+                description: 'Program kepemimpinan digital untuk pengurus dan manajer koperasi.',
                 // Using local placeholder asset; replace with real image later
                 src: '/images/landing-page/coder.svg',
             },
             {
                 id: 5,
                 title: 'Digital Cooperative Leadership Program (DCLP)',
+                description: 'Pengembangan kompetensi strategis dan literasi teknologi.',
                 src: '/images/landing-page/coder.svg',
             },
             {
                 id: 6,
                 title: 'Digital Cooperative Leadership Program (DCLP)',
+                description: 'Membekali talenta koperasi dengan keterampilan abad 21.',
                 src: '/images/landing-page/coder.svg',
             },
             {
                 id: 7,
                 title: 'Digital Cooperative Leadership Program (DCLP)',
+                description: 'Program kepemimpinan digital untuk pengurus dan manajer koperasi.',
                 // Using local placeholder asset; replace with real image later
                 src: '/images/landing-page/coder.svg',
             },
             {
                 id: 8,
                 title: 'Digital Cooperative Leadership Program (DCLP)',
+                description: 'Pengembangan kompetensi strategis dan literasi teknologi.',
                 src: '/images/landing-page/coder.svg',
             },
             {
                 id: 9,
                 title: 'Digital Cooperative Leadership Program (DCLP)',
+                description: 'Membekali talenta koperasi dengan keterampilan abad 21.',
                 src: '/images/landing-page/coder.svg',
             },
         ],
@@ -72,14 +82,13 @@ const ProgramCarousel = () => {
     const goPrev = () => goTo(activeIndex - 1)
     const goNext = () => goTo(activeIndex + 1)
 
-    // Match Tailwind's md breakpoint (min-width: 768px)
+    const { width } = useWindowSize()
     useEffect(() => {
-        const mq = window.matchMedia('(min-width: 768px)')
-        const apply = () => setItemsPerPage(mq.matches ? 3 : 1)
-        apply()
-        mq.addEventListener('change', apply)
-        return () => mq.removeEventListener('change', apply)
-    }, [])
+        if (width === undefined) return
+        if (width >= 1024) setItemsPerPage(3)
+        else if (width >= 568) setItemsPerPage(2)
+        else setItemsPerPage(1)
+    }, [width])
 
     const pages = useMemo(() => {
         const totalPages = Math.ceil(slides.length / itemsPerPage)
@@ -128,7 +137,7 @@ const ProgramCarousel = () => {
         <section className="bg-primary">
             <div className="mx-auto max-w-7xl px-6 py-14">
                 <div className="grid gap-8 md:grid-cols-[280px_1fr] md:items-center">
-                    <h2 className="text-xl font-semibold text-white">Program Unggulan</h2>
+                    <h2 className="text-xl font-semibold text-white text-center md:text-left">Program Unggulan</h2>
 
                     {/* Slider */}
                     <div className="relative">
@@ -161,22 +170,25 @@ const ProgramCarousel = () => {
                                                 <div key={slide.id} className="rounded-2xl bg-white shadow/10">
                                                     {/* Image area */}
                                                     <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-gray-200">
-                                                        <Image
+                                                         <Image
                                                             src={slide.src}
                                                             alt={slide.title}
                                                             fill
                                                             className="object-cover pointer-events-none select-none"
                                                             draggable={false}
-                                                            sizes="(max-width: 768px) 100vw, 33vw"
+                                                             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                                             priority={slide.id === 1}
                                                         />
                                                     </div>
                                                     {/* Caption */}
-                                                    <div className="p-5">
-                                                        <p className="text-sm font-semibold text-gray-700">
-                                                            {slide.title}
-                                                        </p>
-                                                    </div>
+                                                     <div className="p-5">
+                                                         <p className="text-sm font-semibold text-gray-700">
+                                                             {slide.title}
+                                                         </p>
+                                                         <p className="mt-1 text-xs text-gray-500 leading-relaxed">
+                                                             {slide.description}
+                                                         </p>
+                                                     </div>
                                                 </div>
                                             ))}
                                         </div>
