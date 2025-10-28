@@ -4,6 +4,7 @@ import Hero from '@/components/modules/landing-page/Hero'
 import Statistic from '@/components/modules/landing-page/Statistic'
 import About from '@/components/modules/landing-page/About'
 import Program from '@/components/modules/landing-page/Program'
+import ProgramCarousel from '@/components/modules/landing-page/ProgramCarousel'
 
 const Page = () => {
   return (
@@ -12,6 +13,7 @@ const Page = () => {
       <Statistic />
       <About />
       <Program />
+      <ProgramCarousel />
     </main>
   )
 }
