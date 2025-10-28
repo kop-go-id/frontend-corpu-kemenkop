@@ -16,7 +16,7 @@ const Navbar = () => {
   const { isAuthenticated, isLoading } = useAuth();
   return (
     <nav className="sticky top-0 z-50 bg-primary text-white py-5">
-      <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center gap-4 px-4">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-4 px-4">
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/logos/corpu-light.svg"
