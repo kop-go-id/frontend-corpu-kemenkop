@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={plusJakartaSans.className}>
+      <body className={`${plusJakartaSans.className}`}>
         <AntdRegistry theme={ANTD_THEME}>
           {children}
         </AntdRegistry>
