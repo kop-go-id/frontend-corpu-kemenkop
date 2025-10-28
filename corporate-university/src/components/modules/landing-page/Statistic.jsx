@@ -14,7 +14,7 @@ const Statistic = () => {
         <dl className="grid grid-cols-2 gap-x-10 gap-y-10 text-center sm:gap-x-16 md:grid-cols-4">
           {stats.map((item) => (
             <div key={item.label} className="flex flex-col items-center">
-              <dt className="text-3xl font-extrabold text-[#0f5561]">{item.value}</dt>
+              <dt className="text-3xl font-extrabold bg-gradient-to-b from-sky-900 to-cyan-500 bg-clip-text text-transparent">{item.value}</dt>
               <dd className="mt-2 text-sm text-gray-600">{item.label}</dd>
             </div>
           ))}
