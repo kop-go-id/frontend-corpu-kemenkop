@@ -1,8 +1,8 @@
 'use client';
 
-import { useAuth } from '@/components/hoc/withAuth';
 import { Button, Card, Typography, Space } from 'antd';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { useAuth } from '@/hooks/auth';
 
 const { Title, Paragraph } = Typography;
 
