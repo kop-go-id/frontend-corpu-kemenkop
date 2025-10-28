@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/components/common/withAuth';
+import { useAuth } from '@/components/hoc/withAuth';
 import { Button, Card, Typography, Space } from 'antd';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 

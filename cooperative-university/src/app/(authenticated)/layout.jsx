@@ -1,6 +1,6 @@
 'use client';
 
-import withAuth from '@/components/common/withAuth';
+import withAuth from '@/components/hoc/withAuth';
 
 /**
  * Authenticated Layout Component

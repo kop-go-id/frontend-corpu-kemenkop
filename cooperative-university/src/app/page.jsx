@@ -3,7 +3,7 @@
 import { Button, Card, Typography, Space, Row, Col } from 'antd';
 import { LoginOutlined, DashboardOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import { useAuth } from '@/components/common/withAuth';
+import { useAuth } from '@/components/hoc/withAuth';
 
 const { Title, Paragraph } = Typography;
 
