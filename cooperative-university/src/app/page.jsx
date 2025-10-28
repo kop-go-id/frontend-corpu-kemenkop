@@ -36,7 +36,7 @@ export default function Home() {
                     
                     {isAuthenticated ? (
                       <div className="text-center">
-                        <Link href="/dashboard">
+                        <Link href="/user/dashboard">
                           <Button type="primary" size="large" className="w-full">
                             Go to Dashboard
                           </Button>
@@ -95,7 +95,7 @@ export default function Home() {
               </Title>
               <Paragraph className="text-blue-700">
                 This project now includes a Higher-Order Component (HOC) for authentication 
-                that protects routes under <code>/dashboard</code>. The HOC:
+                that protects routes under <code>/user/dashboard</code>. The HOC:
               </Paragraph>
               <ul className="text-blue-700 ml-6">
                 <li>Checks for AUTH_TOKEN in localStorage</li>

@@ -13,7 +13,7 @@ This project now includes a Higher-Order Component (HOC) for authentication that
 
 ### 3. Layout and Pages
 - `src/app/(authenticated)/layout.js` - Authenticated layout wrapped with HOC
-- `src/app/(authenticated)/dashboard/page.jsx` - Example protected page
+- `src/app/(authenticated)/user/dashboard/page.jsx` - Example protected page
 - `src/app/login/page.jsx` - Login page for testing
 - `src/app/page.jsx` - Updated home page with authentication status
 
@@ -76,9 +76,9 @@ const MyComponent = () => {
 
 2. **Test Authentication Flow**:
    - Visit `/` - See authentication status
-   - Try to access `/dashboard` without login - Should redirect to `/login`
-   - Login with any email/password (demo mode) - Should redirect to `/dashboard`
-   - Access `/dashboard` - Should work when authenticated
+   - Try to access `/user/dashboard` without login - Should redirect to `/login`
+   - Login with any email/password (demo mode) - Should redirect to `/user/dashboard`
+   - Access `/user/dashboard` - Should work when authenticated
    - Logout - Should clear token and redirect to home
 
 ## Key Features
