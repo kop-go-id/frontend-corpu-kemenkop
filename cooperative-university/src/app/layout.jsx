@@ -1,7 +1,7 @@
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import 'antd/dist/reset.css';
 import './globals.css';
-import AntdRegistry from '@/lib/antd-registry';
+import AntdRegistry from '@/lib/antdRegistry';
 import { ANTD_THEME } from '@/config/antd';
 
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'] });
