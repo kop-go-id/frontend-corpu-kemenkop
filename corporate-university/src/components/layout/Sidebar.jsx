@@ -4,9 +4,11 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { GraduationCap, BookOpen, Menu as MenuIcon, User2, LogOut, ChevronDown } from 'lucide-react';
+import { Menu as MenuIcon, User2, LogOut, ChevronDown } from 'lucide-react';
 import { Layout, Menu, Button, Drawer, Dropdown, Avatar } from 'antd';
 import { useAuth } from '@/hooks/auth';
+import NAV_ITEMS from '@/config/navigation';
+import { getPageMetaByPath } from '@/config/pageMeta';
 
 const Sidebar = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,45 +16,14 @@ const Sidebar = ({ children }) => {
     const pathname = usePathname();
     const { logout } = useAuth();
 
-    const navItems = useMemo(
-        () => [
-            { label: 'Semua Kelas', href: '/user/courses', Icon: GraduationCap },
-            { label: 'Pembelajaran Saya', href: '/user/enrolled', Icon: BookOpen },
-        ],
-        []
-    );
+    const navItems = NAV_ITEMS;
 
     const isActive = (href) => {
         if (!pathname) return false;
         return pathname.startsWith(href);
     };
 
-    const pageMeta = useMemo(() => {
-        const defaultMeta = {
-            title: 'Dashboard',
-            description: 'Ringkasan aktivitas Anda.',
-        };
-        if (!pathname) return defaultMeta;
-        if (pathname.startsWith('/user/courses')) {
-            return {
-                title: 'Semua Kelas',
-                description: 'Jelajahi dan enroll kelas yang tersedia',
-            };
-        }
-        if (pathname.startsWith('/user/enrolled')) {
-            return {
-                title: 'Pembelajaran Saya',
-                description: 'Lanjutkan kelas yang sedang Anda ikuti',
-            };
-        }
-        if (pathname.startsWith('/user/learn')) {
-            return {
-                title: 'Belajar',
-                description: 'Fokus pada materi dan capai kemajuan',
-            };
-        }
-        return defaultMeta;
-    }, [pathname]);
+    const pageMeta = useMemo(() => getPageMetaByPath(pathname || ''), [pathname]);
 
     return (
         <div className="h-screen w-full overflow-hidden bg-gray-100">
