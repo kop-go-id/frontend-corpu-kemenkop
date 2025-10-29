@@ -33,7 +33,7 @@ const LoginPage = () => {
       message.success('Login successful!');
       
       // Redirect to dashboard
-      router.push('/user/dashboard');
+      router.push('/user/courses');
       
     } catch (error) {
       message.error('Login failed. Please try again.');

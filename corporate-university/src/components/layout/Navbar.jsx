@@ -46,7 +46,7 @@ const Navbar = () => {
             />
           ) : (
             <Link
-              href={isAuthenticated ? '/user/dashboard' : '/login'}
+              href={isAuthenticated ? '/user/courses' : '/login'}
               className="inline-flex"
             >
               <Button
