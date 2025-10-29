@@ -1,9 +1,258 @@
-import React from 'react'
+"use client";
+
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { Empty, Spin } from 'antd';
+import { CourseCard, SearchBar, Pagination } from '@/components/common';
+
+const MOCK_COURSES = [
+  {
+    id: 1,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Kepemimpinan',
+    level: 'Mahir',
+    image: '/images/landing-page/coder.svg',
+  },
+  {
+    id: 2,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Manajemen',
+    level: 'Menengah',
+    image: '/images/landing-page/rocket.svg',
+  },
+  {
+    id: 3,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Digital',
+    level: 'Pemula',
+    image: '/images/landing-page/coder.svg',
+  },
+  {
+    id: 4,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Kepemimpinan',
+    level: 'Mahir',
+    image: '/images/landing-page/rocket.svg',
+  },
+  {
+    id: 5,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Manajemen',
+    level: 'Menengah',
+    image: '/images/landing-page/coder.svg',
+  },
+  {
+    id: 6,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Digital',
+    level: 'Pemula',
+    image: '/images/landing-page/rocket.svg',
+  },
+  {
+    id: 7,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Kepemimpinan',
+    level: 'Mahir',
+    image: '/images/landing-page/coder.svg',
+  },
+  {
+    id: 8,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Manajemen',
+    level: 'Menengah',
+    image: '/images/landing-page/rocket.svg',
+  },
+  {
+    id: 9,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Digital',
+    level: 'Pemula',
+    image: '/images/landing-page/coder.svg',
+  },
+  {
+    id: 10,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Digital',
+    level: 'Pemula',
+    image: '/images/landing-page/coder.svg',
+  },
+  {
+    id: 11,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Digital',
+    level: 'Pemula',
+    image: '/images/landing-page/coder.svg',
+  },
+  {
+    id: 12,
+    title: 'Digital Cooperative Leadership Program (DCLP)',
+    description: 'Program kepemimpinan digital untuk transformasi koperasi modern',
+    duration: '8 Minggu',
+    modules: 12,
+    category: 'Digital',
+    level: 'Pemula',
+    image: '/images/landing-page/coder.svg',
+  },
+];
+
+const CATEGORIES = [
+  { value: 'kepemimpinan', label: 'Kepemimpinan' },
+  { value: 'manajemen', label: 'Manajemen' },
+  { value: 'digital', label: 'Digital' },
+];
+
+const LEVELS = [
+  { value: 'pemula', label: 'Pemula' },
+  { value: 'menengah', label: 'Menengah' },
+  { value: 'mahir', label: 'Mahir' },
+];
+
+const ITEMS_PER_PAGE = 9;
 
 const CoursesPage = () => {
-  return (
-    <div>CoursesPage</div>
-  )
-}
+  // State management
+  const [searchValue, setSearchValue] = useState('');
+  const [categoryValue, setCategoryValue] = useState('all');
+  const [levelValue, setLevelValue] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading] = useState(false); // Set to true when fetching from API
 
-export default CoursesPage
+  // Auto reset page to 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchValue, categoryValue, levelValue]);
+
+  // Filter courses based on search and filters
+  const filteredCourses = useMemo(() => {
+    return MOCK_COURSES.filter((course) => {
+      const matchesSearch = course.title
+        .toLowerCase()
+        .includes(searchValue.toLowerCase()) ||
+        course.description
+          .toLowerCase()
+          .includes(searchValue.toLowerCase());
+
+      const matchesCategory =
+        categoryValue === 'all' ||
+        course.category.toLowerCase() === categoryValue.toLowerCase();
+
+      const matchesLevel =
+        levelValue === 'all' ||
+        course.level.toLowerCase() === levelValue.toLowerCase();
+
+      return matchesSearch && matchesCategory && matchesLevel;
+    });
+  }, [searchValue, categoryValue, levelValue]);
+
+  // Paginate filtered courses
+  const paginatedCourses = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredCourses.slice(startIndex, endIndex);
+  }, [filteredCourses, currentPage]);
+
+  // Reset all filters
+  const handleReset = useCallback(() => {
+    setSearchValue('');
+    setCategoryValue('all');
+    setLevelValue('all');
+  }, []);
+
+  // Handle search button click
+  const handleSearch = useCallback(() => {
+    // Page will auto reset via useEffect
+  }, []);
+
+  // Handle page change
+  const handlePageChange = useCallback((page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  return (
+    <div>
+      {/* Search and Filters */}
+      <SearchBar
+        searchValue={searchValue}
+        onSearchChange={setSearchValue}
+        categoryValue={categoryValue}
+        onCategoryChange={setCategoryValue}
+        levelValue={levelValue}
+        onLevelChange={setLevelValue}
+        onReset={handleReset}
+        onSearch={handleSearch}
+        categories={CATEGORIES}
+        levels={LEVELS}
+      />
+
+      {/* Loading State */}
+      {isLoading ? (
+        <div className="flex justify-center items-center py-20">
+          <Spin size="large" />
+        </div>
+      ) : (
+        <>
+          {/* Courses Grid */}
+          {paginatedCourses.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {paginatedCourses.map((course) => (
+                <CourseCard key={course.id} {...course} />
+              ))}
+            </div>
+          ) : (
+            <Empty
+              description="Tidak ada kelas yang ditemukan"
+              className="py-20"
+            />
+          )}
+
+          {/* Pagination */}
+          {filteredCourses.length > ITEMS_PER_PAGE && (
+            <div className="mt-8">
+              <Pagination
+                current={currentPage}
+                total={filteredCourses.length}
+                pageSize={ITEMS_PER_PAGE}
+                onChange={handlePageChange}
+              />
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+};
+
+export default CoursesPage;

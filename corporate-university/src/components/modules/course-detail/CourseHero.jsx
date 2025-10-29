@@ -18,7 +18,6 @@ const CourseHero = ({ course, onEnroll }) => {
   return (
     <section className="bg-primary text-white py-6 lg:py-8">
       <div className="container mx-auto px-4 lg:px-8">
-        {/* Back Button */}
         <button 
           onClick={() => router.back()}
           className="flex items-center gap-2 text-white/90 hover:text-white transition-colors mb-6 group"
@@ -28,7 +27,6 @@ const CourseHero = ({ course, onEnroll }) => {
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
-          {/* Left Content */}
           <div className="space-y-4">
             {/* Badges */}
             <div className="flex flex-wrap gap-2">
