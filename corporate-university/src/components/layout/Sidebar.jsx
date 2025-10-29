@@ -84,7 +84,7 @@ const Sidebar = ({ children }) => {
                         className="rounded-2xl !bg-primary shadow-md h-[calc(100vh-24px)]"
                         style={{ overflow: 'hidden' }}
                     >
-                        <div className="p-4">
+                        <div className="p-8">
                             <Image
                                 src="/logos/corpu-light.svg"
                                 alt="Kemenkop Corporate University"
