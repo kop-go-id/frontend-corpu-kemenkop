@@ -1,7 +1,6 @@
 'use client';
 
 import withAuth from '@/components/hoc/withAuth';
-import Sidebar from '@/components/layout/Sidebar';
 
 /**
  * Authenticated Layout Component
@@ -9,11 +8,7 @@ import Sidebar from '@/components/layout/Sidebar';
  * to ensure only authenticated users can access pages under /(authenticated)
  */
 const AuthenticatedLayout = ({ children }) => {
-  return (
-    <Sidebar>
-      {children}
-    </Sidebar>
-  );
+  return children
 };
 
 // Wrap the layout with authentication HOC
