@@ -6,11 +6,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Badge from '@/components/common/Badge';
 import Button from '@/components/common/Button';
+import { Skeleton } from 'antd';
+import { useAuth } from '@/hooks/auth';
 import InfoItem from '@/components/common/InfoItem';
 import { ClockCircleOutlined, BookOutlined, UserOutlined, TeamOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 
 const CourseHero = ({ course, onEnroll }) => {
   const router = useRouter();
+  const { isAuthenticated, isLoading } = useAuth();
 
   return (
     <section className="bg-primary text-white py-6 lg:py-8">
@@ -76,13 +79,30 @@ const CourseHero = ({ course, onEnroll }) => {
 
             {/* CTA Button */}
             <div className="pt-2">
-              <Button 
-                size="md" 
-                onClick={onEnroll}
-                className="shadow-xl hover:shadow-2xl"
-              >
-                Enroll Kelas
-              </Button>
+              {isLoading ? (
+                <Skeleton.Button
+                  active
+                  className="!w-28 !h-10 !rounded-md !bg-white/30"
+                />
+              ) : (
+                isAuthenticated ? (
+                  <Button 
+                    size="md" 
+                    onClick={onEnroll}
+                    className="shadow-xl hover:shadow-2xl"
+                  >
+                    Enroll Kelas
+                  </Button>
+                ) : (
+                  <Button
+                    size="md"
+                    onClick={() => router.push('/login')}
+                    className="shadow-xl hover:shadow-2xl"
+                  >
+                    Bergabung Sekarang!
+                  </Button>
+                )
+              )}
             </div>
           </div>
 
