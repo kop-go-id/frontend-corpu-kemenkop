@@ -4,132 +4,191 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { GraduationCap, BookOpen, Menu, X } from 'lucide-react';
+import { GraduationCap, BookOpen, Menu as MenuIcon, User2, LogOut, ChevronDown } from 'lucide-react';
+import { Layout, Menu, Button, Drawer, Dropdown, Avatar } from 'antd';
+import { useAuth } from '@/hooks/auth';
 
 const Sidebar = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
+    const [isOpen, setIsOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const pathname = usePathname();
+    const { logout } = useAuth();
 
-  const navItems = useMemo(
-    () => [
-      { label: 'Semua Kelas', href: '/user/courses', Icon: GraduationCap },
-      { label: 'Pembelajaran Saya', href: '/user/enrolled', Icon: BookOpen },
-    ],
-    []
-  );
+    const navItems = useMemo(
+        () => [
+            { label: 'Semua Kelas', href: '/user/courses', Icon: GraduationCap },
+            { label: 'Pembelajaran Saya', href: '/user/enrolled', Icon: BookOpen },
+        ],
+        []
+    );
 
-  const isActive = (href) => {
-    if (!pathname) return false;
-    return pathname.startsWith(href);
-  };
+    const isActive = (href) => {
+        if (!pathname) return false;
+        return pathname.startsWith(href);
+    };
 
-  return (
-    <div className="h-screen w-full overflow-hidden bg-gray-100">
-      {/* Top bar with burger on mobile/tablet */}
-      <div className="lg:hidden sticky top-0 z-40 flex items-center justify-between gap-3 px-4 py-3 bg-primary text-white">
-        <div className="flex items-center gap-2">
-          <Image
-            src="/logos/corpu-light.svg"
-            alt="Kemenkop Corporate University"
-            width={120}
-            height={32}
-            priority
-          />
-        </div>
-        <button
-          aria-label="Open sidebar"
-          className="p-2 rounded-md bg-white/10 hover:bg-white/20 transition"
-          onClick={() => setIsOpen(true)}
-        >
-          <Menu className="h-5 w-5" />
-        </button>
-      </div>
+    const pageMeta = useMemo(() => {
+        const defaultMeta = {
+            title: 'Dashboard',
+            description: 'Ringkasan aktivitas Anda.',
+        };
+        if (!pathname) return defaultMeta;
+        if (pathname.startsWith('/user/courses')) {
+            return {
+                title: 'Semua Kelas',
+                description: 'Jelajahi dan enroll kelas yang tersedia',
+            };
+        }
+        if (pathname.startsWith('/user/enrolled')) {
+            return {
+                title: 'Pembelajaran Saya',
+                description: 'Lanjutkan kelas yang sedang Anda ikuti',
+            };
+        }
+        if (pathname.startsWith('/user/learn')) {
+            return {
+                title: 'Belajar',
+                description: 'Fokus pada materi dan capai kemajuan',
+            };
+        }
+        return defaultMeta;
+    }, [pathname]);
 
-      <div className="mx-auto flex h-[calc(100vh-56px)] lg:h-screen w-full overflow-hidden">
-        {/* Desktop sidebar */}
-        <aside className="hidden lg:flex lg:w-64 xl:w-72 p-3">
-          <div className="flex h-[calc(100vh-24px)] w-full flex-col rounded-2xl bg-primary shadow-md">
-            <div className="p-4">
-              <Image
-                src="/logos/corpu-light.svg"
-                alt="Kemenkop Corporate University"
-                width={180}
-                height={48}
-                priority
-              />
-            </div>
-            <nav className="mt-2 flex-1 overflow-y-auto space-y-2 px-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm text-white/90 transition ${
-                    isActive(item.href)
-                      ? 'bg-white/10 text-white'
-                      : 'hover:bg-white/10 hover:text-white'
-                  }`}
-                >
-                  <item.Icon className="h-5 w-5" />
-                  <span>{item.label}</span>
-                </Link>
-              ))}
-            </nav>
-          </div>
-        </aside>
-
-        {/* Drawer sidebar (mobile/tablet) */}
-        {isOpen && (
-          <div className="lg:hidden fixed inset-0 z-50">
-            <div
-              className="absolute inset-0 bg-black/40"
-              onClick={() => setIsOpen(false)}
-            />
-            <div className="absolute right-0 top-0 h-full w-72 max-w-[85%] p-3">
-              <div className="flex h-full flex-col rounded-l-2xl bg-primary shadow-xl">
-                <div className="flex items-center justify-between p-4">
-                  <Image
-                    src="/logos/corpu-light.svg"
-                    alt="Kemenkop Corporate University"
-                    width={150}
-                    height={40}
-                  />
-                  <button
-                    aria-label="Close sidebar"
-                    className="p-2 rounded-md bg-white/10 hover:bg-white/20 text-white"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
+    return (
+        <div className="h-screen w-full overflow-hidden bg-gray-100">
+            {/* Top bar with burger on mobile/tablet */}
+            <div className="lg:hidden sticky top-0 z-40 flex items-center justify-between gap-3 px-4 py-3 bg-primary text-white">
+                <div className="flex items-center gap-2">
+                    <Image
+                        src="/logos/corpu-light.svg"
+                        alt="Kemenkop Corporate University"
+                        width={120}
+                        height={32}
+                        priority
+                    />
                 </div>
-                <nav className="mt-2 flex-1 overflow-y-auto space-y-2 px-2">
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setIsOpen(false)}
-                      className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm text-white/90 transition ${
-                        isActive(item.href)
-                          ? 'bg-white/10 text-white'
-                          : 'hover:bg-white/10 hover:text-white'
-                      }`}
-                    >
-                      <item.Icon className="h-5 w-5" />
-                      <span>{item.label}</span>
-                    </Link>
-                  ))}
-                </nav>
-              </div>
+                <Button
+                    aria-label="Open sidebar"
+                    type="text"
+                    onClick={() => setIsOpen(true)}
+                    className="text-white"
+                    icon={<MenuIcon className="h-5 w-5" />}
+                />
             </div>
-          </div>
-        )}
 
-        {/* Main content */}
-        <main className="flex-1 overflow-auto h-full p-4 lg:p-6">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
+            <div className="mx-auto flex h-[calc(100vh-56px)] lg:h-screen w-full overflow-hidden">
+                {/* Desktop sidebar */}
+                <div className="hidden lg:block p-3">
+                    <Layout.Sider
+                        width={288}
+                        className="rounded-2xl !bg-primary shadow-md h-[calc(100vh-24px)]"
+                        style={{ overflow: 'hidden' }}
+                    >
+                        <div className="p-4">
+                            <Image
+                                src="/logos/corpu-light.svg"
+                                alt="Kemenkop Corporate University"
+                                width={180}
+                                height={48}
+                                priority
+                            />
+                        </div>
+                        <div className="px-2 h-[calc(100%-80px)] overflow-y-auto">
+                            <Menu
+                                mode="inline"
+                                selectable
+                                selectedKeys={[pathname || '']}
+                                items={navItems.map((item) => ({
+                                    key: item.href,
+                                    icon: <item.Icon className="h-5 w-5 text-white" />,
+                                    label: (
+                                        <Link className="text-white/90" href={item.href}>{item.label}</Link>
+                                    ),
+                                }))}
+                                className="bg-transparent text-white [&_.ant-menu-item-selected]:!bg-white/10 [&_.ant-menu-item]:!text-white/90"
+                            />
+                        </div>
+                    </Layout.Sider>
+                </div>
+
+                {/* Drawer sidebar (mobile/tablet) */}
+                <Drawer
+                    className="lg:hidden"
+                    placement="right"
+                    width={288}
+                    bodyStyle={{ padding: 0, background: 'transparent' }}
+                    styles={{ body: { padding: 0 } }}
+                    open={isOpen}
+                    onClose={() => setIsOpen(false)}
+                >
+                    <div className="h-full bg-primary p-4">
+                        <div className="mb-2 flex items-center justify-between">
+                            <Image
+                                src="/logos/corpu-light.svg"
+                                alt="Kemenkop Corporate University"
+                                width={150}
+                                height={40}
+                            />
+                            <Button type="text" className="text-white" onClick={() => setIsOpen(false)}>Close</Button>
+                        </div>
+                        <div className="px-2 h-[calc(100%-56px)] overflow-y-auto">
+                            <Menu
+                                mode="inline"
+                                selectable
+                                selectedKeys={[pathname || '']}
+                                onClick={() => setIsOpen(false)}
+                                items={navItems.map((item) => ({
+                                    key: item.href,
+                                    icon: <item.Icon className="h-5 w-5 text-white" />,
+                                    label: (
+                                        <Link className="text-white/90" href={item.href}>{item.label}</Link>
+                                    ),
+                                }))}
+                                className="bg-transparent text-white [&_.ant-menu-item-selected]:!bg-white/10 [&_.ant-menu-item]:!text-white/90"
+                            />
+                        </div>
+                    </div>
+                </Drawer>
+
+                {/* Main content */}
+                <main className="flex-1 overflow-auto h-full p-4 lg:p-6">
+                    {/* Top Bar */}
+                    <div className="mb-6 flex items-start justify-between">
+                        <div>
+                            <h1 className="text-2xl font-bold text-primary">{pageMeta.title}</h1>
+                            <p className="mt-1 text-sm text-gray-500">{pageMeta.description}</p>
+                        </div>
+                        <Dropdown
+                            menu={{
+                                items: [
+                                    {
+                                        key: 'logout',
+                                        label: 'Keluar',
+                                        icon: <LogOut className="h-4 w-4" />,
+                                    },
+                                ],
+                                onClick: ({ key }) => {
+                                    if (key === 'logout') logout();
+                                },
+                            }}
+                            open={isProfileOpen}
+                            onOpenChange={setIsProfileOpen}
+                        >
+                            <Button className="!w-max !h-max !border-0 !rounded-2xl ">
+                                <div className='flex items-center gap-3 !px-3 !py-4'>
+                                    <Avatar className="bg-primary text-white" icon={<User2 className="h-5 w-5" />} />
+                                    <span className="text-sm font-semibold text-primary">Student</span>
+                                    <ChevronDown className="h-5 w-5 text-primary" />
+                                </div>
+                            </Button>
+                        </Dropdown>
+                    </div>
+
+                    {children}
+                </main>
+            </div>
+        </div>
+    );
 };
 
 export default Sidebar;
