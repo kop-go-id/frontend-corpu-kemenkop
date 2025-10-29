@@ -2,11 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Form, Input, Button, Card, Typography, Space, message } from 'antd';
-import { UserOutlined, LockOutlined, LoginOutlined } from '@ant-design/icons';
+import { Form, Input, Button, message } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { setAuthToken } from '@/lib/client';
-
-const { Title, Paragraph } = Typography;
+import Image from 'next/image';
 
 /**
  * Login Page
@@ -44,16 +43,28 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <Card>
-          <Space direction="vertical" size="large" className="w-full">
-            <div className="text-center">
-              <UserOutlined className="text-6xl text-blue-500 mb-4" />
-              <Title level={2}>Sign In</Title>
-              <Paragraph className="text-gray-600">
-                Enter your credentials to access the dashboard
-              </Paragraph>
+    <div className="min-h-screen flex justify-center bg-primary">
+      <div className="hidden lg:flex items-center justify-end p-12">
+        <div className="relative w-full max-w-2xl h-auto">
+          <Image
+            src="/images/login-page/secure-login.svg"
+            alt="Secure Login"
+            width={600}
+            height={544}
+            className="w-full h-auto"
+            priority
+          />
+        </div>
+      </div>
+
+      {/* Login Form */}
+      <div className="flex items-center justify-center p-8">
+        <div className="w-full max-w-lg">
+          <div className="bg-white rounded-3xl p-10 shadow-2xl">
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
+                Masuk
+              </h1>
             </div>
 
             <Form
@@ -64,7 +75,7 @@ const LoginPage = () => {
               size="large"
             >
               <Form.Item
-                label="Email"
+                label={<span className="text-gray-700 font-medium">Email</span>}
                 name="email"
                 rules={[
                   { required: true, message: 'Please input your email!' },
@@ -72,13 +83,14 @@ const LoginPage = () => {
                 ]}
               >
                 <Input 
-                  prefix={<UserOutlined />} 
-                  placeholder="Enter your email"
+                  prefix={<UserOutlined className="text-gray-400" />} 
+                  placeholder="yourname@example.com"
+                  className="h-12 rounded-lg border-gray-300"
                 />
               </Form.Item>
 
               <Form.Item
-                label="Password"
+                label={<span className="text-gray-700 font-medium">Kata Sandi</span>}
                 name="password"
                 rules={[
                   { required: true, message: 'Please input your password!' },
@@ -86,35 +98,55 @@ const LoginPage = () => {
                 ]}
               >
                 <Input.Password 
-                  prefix={<LockOutlined />} 
-                  placeholder="Enter your password"
+                  prefix={<LockOutlined className="text-gray-400" />} 
+                  placeholder="••••••••"
+                  className="h-12 rounded-lg border-gray-300"
                 />
               </Form.Item>
 
+              <div className="flex justify-end mb-6">
+                <a 
+                  href="#" 
+                  className="text-sm text-gray-600 hover:text-primary transition-colors"
+                >
+                  Lupa kata sandi?
+                </a>
+              </div>
+
               <Form.Item>
                 <Button 
-                  type="primary" 
                   htmlType="submit" 
-                  className="w-full"
+                  className="w-full h-12 rounded-lg font-semibold"
                   loading={loading}
-                  icon={<LoginOutlined />}
+                  style={{
+                    backgroundColor: '#E5A80E',
+                    borderColor: '#E5A80E',
+                    color: 'white'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = '#D4990D';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = '#E5A80E';
+                  }}
                 >
-                  Sign In
+                  Masuk
                 </Button>
               </Form.Item>
             </Form>
 
-            <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-              <Title level={5} className="text-yellow-800 mb-2">
+            {/* Demo Mode Info */}
+            <div className="mt-8 bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+              <p className="text-yellow-800 font-semibold mb-2 text-sm">
                 🧪 Demo Mode
-              </Title>
-              <Paragraph className="text-yellow-700 text-sm">
+              </p>
+              <p className="text-yellow-700 text-xs">
                 For testing purposes, you can use any email and password combination 
                 (minimum 6 characters for password). The system will generate a mock token.
-              </Paragraph>
+              </p>
             </div>
-          </Space>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
