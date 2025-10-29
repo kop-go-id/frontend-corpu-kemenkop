@@ -1,6 +1,7 @@
 'use client';
 
 import withAuth from '@/components/hoc/withAuth';
+import Sidebar from '@/components/layout/Sidebar';
 
 /**
  * Authenticated Layout Component
@@ -9,14 +10,9 @@ import withAuth from '@/components/hoc/withAuth';
  */
 const AuthenticatedLayout = ({ children }) => {
   return (
-    <div className="authenticated-layout">
-      {/* You can add common authenticated layout elements here */}
-      {/* Such as: Header, Sidebar, Navigation, etc. */}
-      
-      <main className="flex-1">
-        {children}
-      </main>
-    </div>
+    <Sidebar>
+      {children}
+    </Sidebar>
   );
 };
 
