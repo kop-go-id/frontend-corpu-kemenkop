@@ -38,3 +38,32 @@ export function lastCoursePretestTimeLeft() {
 }
 
 
+export function clearCoursePretestStorage() {
+  if (typeof window === 'undefined') return;
+  const storageConfig = getCoursePretestStorageConfig();
+  const prefix = storageConfig.getStoragePrefix();
+  const pretestId = storageConfig.getPretestId();
+  const respondentId = storageConfig.getRespondentId();
+
+  try {
+    // Session identity keys
+    localStorage.removeItem(`${prefix}:pretest_id`);
+    localStorage.removeItem(`${prefix}:pretest_code`);
+    localStorage.removeItem(`${prefix}:respondent_id`);
+    localStorage.removeItem(`${prefix}:token`);
+    localStorage.removeItem(`${prefix}:token_expires_at`);
+    localStorage.removeItem(storageConfig.getTimeLeftKey());
+
+    // Per-pretest keys
+    if (pretestId) {
+      localStorage.removeItem(storageConfig.getLastOpenedQuestionKey(pretestId));
+      localStorage.removeItem(storageConfig.getFlaggedQuestionsKey(pretestId));
+    }
+    if (pretestId && respondentId) {
+      localStorage.removeItem(storageConfig.getAnswersKey(pretestId, respondentId));
+    }
+  } catch (_) {
+    // ignore cleanup errors
+  }
+}
+
