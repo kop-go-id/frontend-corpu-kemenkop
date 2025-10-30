@@ -26,7 +26,7 @@ const EnrolledCourseCard = memo(({
   const handleClick = (e) => {
     e.preventDefault();
     setIsNavigating(true);
-    const targetHref = href || `/courses/${id}`;
+    const targetHref = href || `/user/learn/${id}`;
     router.push(targetHref);
   };
 
