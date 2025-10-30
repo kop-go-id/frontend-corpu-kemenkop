@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Spin } from 'antd';
 import { getAuthToken } from '@/lib/client';
+import EduLoading from '@/components/common/EduLoading';
 
 /**
  * Higher-Order Component for authentication
@@ -78,8 +78,7 @@ const withAuth = (WrappedComponent, options = {}) => {
       return (
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <Spin size="large" />
-            <p className="mt-4 text-gray-600">Checking authentication...</p>
+            <EduLoading message="Memuat..." />
           </div>
         </div>
       );
