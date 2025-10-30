@@ -53,7 +53,7 @@ const CourseDetailPage = () => {
   const courseId = params?.courseId;
 
   const handleEnroll = () => {
-    console.log('Enrolling in course:', courseId);
+    router.push(`/user/pretest/${courseId}/welcome`);
   };
 
   return (
