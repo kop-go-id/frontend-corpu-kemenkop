@@ -7,8 +7,8 @@ import { ANTD_THEME } from '@/config/antd';
 const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Cooperative University',
-  description: 'Cooperative University',
+  title: 'Corporate University by Kementerian Koperasi Republik Indonesia',
+  description: 'Corporate University by Kementerian Koperasi Republik Indonesia, platform pembelajaran, informasi, dan pengembangan koperasi modern',
 };
 
 export default function RootLayout({ children }) {
