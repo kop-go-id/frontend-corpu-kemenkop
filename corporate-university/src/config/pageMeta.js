@@ -27,6 +27,13 @@ const META_RULES = [
       description: 'Fokus pada materi dan capai kemajuan',
     },
   },
+  {
+    match: (path) => path === '/user/discussion',
+    meta: {
+      title: 'Diskusi',
+      description: 'Bergabung dan berdiskusi dengan peserta lainnya',
+    },
+  },
 ];
 
 export function getPageMetaByPath(pathname) {
