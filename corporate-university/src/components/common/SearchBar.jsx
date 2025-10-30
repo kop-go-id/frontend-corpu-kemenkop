@@ -22,7 +22,6 @@ const SearchBar = memo(({
   return (
     <div className="bg-white rounded-lg p-3 mb-6 shadow-sm border border-gray-100">
       <div className="flex flex-col lg:flex-row gap-3 items-start lg:items-center">
-        {/* Search Input with Button */}
         <div className="flex gap-2 flex-1 w-full lg:w-auto">
           <Input
             placeholder="Cari Kelas"
@@ -43,7 +42,6 @@ const SearchBar = memo(({
           </AntButton>
         </div>
 
-        {/* Category Filter with Label */}
         <div className="flex items-center gap-2 w-full lg:w-auto">
           <label className="text-xs font-medium text-gray-700 whitespace-nowrap">
             Kategori:
@@ -63,7 +61,6 @@ const SearchBar = memo(({
           </Select>
         </div>
 
-        {/* Level Filter with Label */}
         <div className="flex items-center gap-2 w-full lg:w-auto">
           <label className="text-xs font-medium text-gray-700 whitespace-nowrap">
             Tingkat:
@@ -83,7 +80,6 @@ const SearchBar = memo(({
           </Select>
         </div>
 
-        {/* Reset Button */}
         <AntButton
           size="middle"
           danger

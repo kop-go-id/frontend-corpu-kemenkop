@@ -20,7 +20,7 @@ const CourseHero = ({ course, onEnroll }) => {
       <div className="container mx-auto px-4 lg:px-8">
         <button 
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-white/90 hover:text-white transition-colors mb-6 group"
+          className="flex items-center gap-2 text-white/90 hover:text-white transition-colors mb-6 group border-0 outline-none bg-transparent"
         >
           <ArrowLeftOutlined className="text-base" />
           <span className="text-sm font-medium">Kembali</span>
@@ -28,7 +28,6 @@ const CourseHero = ({ course, onEnroll }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
           <div className="space-y-4">
-            {/* Badges */}
             <div className="flex flex-wrap gap-2">
               {course.badges?.map((badge, index) => (
                 <Badge 
@@ -41,17 +40,14 @@ const CourseHero = ({ course, onEnroll }) => {
               ))}
             </div>
 
-            {/* Title */}
             <h1 className="text-2xl lg:text-3xl font-bold leading-tight">
               {course.title}
             </h1>
 
-            {/* Description */}
             <p className="text-sm lg:text-base text-white/90 leading-relaxed">
               {course.description}
             </p>
 
-            {/* Info Grid */}
             <div className="grid grid-cols-2 gap-3 pt-2">
               <InfoItem
                 icon={<ClockCircleOutlined className="text-xl" />}
@@ -75,7 +71,6 @@ const CourseHero = ({ course, onEnroll }) => {
               />
             </div>
 
-            {/* CTA Button */}
             <div className="pt-2">
               {isLoading ? (
                 <Skeleton.Button
@@ -104,14 +99,13 @@ const CourseHero = ({ course, onEnroll }) => {
             </div>
           </div>
 
-          {/* Right Content - Image */}
           <div className="relative">
-            <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-xl">
+            <div className="relative w-full h-[400px] lg:h-[450px] rounded-2xl overflow-hidden">
               <Image
                 src={course.image}
                 alt={course.title}
                 fill
-                className="object-cover"
+                className="object-contain"
                 priority
               />
             </div>

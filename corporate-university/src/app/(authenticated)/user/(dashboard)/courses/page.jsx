@@ -142,19 +142,16 @@ const LEVELS = [
 const ITEMS_PER_PAGE = 9;
 
 const CoursesPage = () => {
-  // State management
   const [searchValue, setSearchValue] = useState('');
   const [categoryValue, setCategoryValue] = useState('all');
   const [levelValue, setLevelValue] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading] = useState(false); // Set to true when fetching from API
+  const [isLoading] = useState(false); 
 
-  // Auto reset page to 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchValue, categoryValue, levelValue]);
 
-  // Filter courses based on search and filters
   const filteredCourses = useMemo(() => {
     return MOCK_COURSES.filter((course) => {
       const matchesSearch = course.title
@@ -176,26 +173,21 @@ const CoursesPage = () => {
     });
   }, [searchValue, categoryValue, levelValue]);
 
-  // Paginate filtered courses
   const paginatedCourses = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     return filteredCourses.slice(startIndex, endIndex);
   }, [filteredCourses, currentPage]);
 
-  // Reset all filters
   const handleReset = useCallback(() => {
     setSearchValue('');
     setCategoryValue('all');
     setLevelValue('all');
   }, []);
 
-  // Handle search button click
   const handleSearch = useCallback(() => {
-    // Page will auto reset via useEffect
   }, []);
 
-  // Handle page change
   const handlePageChange = useCallback((page) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -203,7 +195,6 @@ const CoursesPage = () => {
 
   return (
     <div>
-      {/* Search and Filters */}
       <SearchBar
         searchValue={searchValue}
         onSearchChange={setSearchValue}
@@ -217,14 +208,12 @@ const CoursesPage = () => {
         levels={LEVELS}
       />
 
-      {/* Loading State */}
       {isLoading ? (
         <div className="flex justify-center items-center py-20">
           <Spin size="large" />
         </div>
       ) : (
         <>
-          {/* Courses Grid */}
           {paginatedCourses.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {paginatedCourses.map((course) => (
@@ -238,7 +227,6 @@ const CoursesPage = () => {
             />
           )}
 
-          {/* Pagination */}
           {filteredCourses.length > ITEMS_PER_PAGE && (
             <div className="mt-8">
               <Pagination
