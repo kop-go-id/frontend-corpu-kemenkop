@@ -8,7 +8,7 @@ import TimerBadge from '@/components/modules/course-pretest/TimerBadge';
 import TopBar from '@/components/modules/course-pretest/TopBar';
 import LoadingAnimation from '@/components/modules/course-pretest/LoadingAnimation';
 import { endPretest, getQuestionAnsweredByPretestId, getQuestionByPretestId } from '@/lib/coursePretestService';
-import { ensureCoursePretestSeeded, lastCoursePretest, lastCoursePretestTimeLeft } from '@/lib/coursePretestStorage';
+import { ensureCoursePretestSeeded, lastCoursePretest, lastCoursePretestTimeLeft, clearCoursePretestStorage } from '@/lib/coursePretestStorage';
 import { getCoursePretestStorageConfig } from '@/config/coursePretest';
 import { ChevronLeft, ChevronRight, CheckSquare, Square } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -148,6 +148,7 @@ const CoursePretestPage = () => {
                 token: lastCoursePretest()?.token,
                 expires_at: lastCoursePretest()?.token_expires_at,
             })
+            clearCoursePretestStorage()
             router.push(`/`)
         } catch (err) {
             console.error(err)
