@@ -28,8 +28,49 @@ const CourseLearningPage = ({ params }) => {
         "Mengidentifikasi pilar-pilar utama Data Governance.",
         "Mengenal kerangka kerja Data Governance yang umum digunakan.",
       ],
-      task: "Tugas Modul 1: Buat ringkasan tentang 5 pilar utama data governance berdasarkan semua video dalam modul ini.",
-      quiz: "Kuis Modul 1 akan tersedia setelah semua video dalam modul ini selesai ditonton.",
+      tasks: [
+        {
+          id: "task-1-1",
+          title: "Ringkasan 5 Pilar Utama Data Governance",
+          date: "Batas Waktu: 25 Des 2023",
+          time: "23:59 WIB",
+        },
+      ],
+      discussions: [
+        {
+          id: "comment-1",
+          author: "Budi Santoso",
+          avatarUrl: "https://i.pravatar.cc/150?u=budi",
+          comment:
+            "Materi yang sangat bagus untuk pengenalan. Apakah ada contoh nyata penerapan pilar-pilar ini di koperasi?",
+          timestamp: "2 jam yang lalu",
+          reply: {
+            id: "reply-1-1",
+            author: "Admin Kemenkop",
+            avatarUrl: "https://i.pravatar.cc/150?u=admin",
+            comment:
+              "Terima kasih atas pertanyaannya, Budi. Contoh nyata akan dibahas lebih mendalam pada Modul 2 tentang Studi Kasus.",
+            timestamp: "1 jam yang lalu",
+          },
+        },
+        {
+          id: "comment-2",
+          author: "Citra Lestari",
+          avatarUrl: "https://i.pravatar.cc/150?u=citra",
+          comment:
+            "Saya setuju, video kedua tentang kualitas data sangat membuka wawasan. Terima kasih!",
+          timestamp: "1 hari yang lalu",
+          reply: null, // Belum ada balasan
+        },
+      ],
+      quiz: [
+        {
+          id: "quiz-1-1",
+          title: "Kuis Pemahaman Dasar Data Governance",
+          duration: "15 Menit",
+          questionCount: 10,
+        },
+      ],
       report: "Laporan kemajuan Anda untuk Modul 1 akan ditampilkan di sini.",
       attachments: [
         {
@@ -61,8 +102,16 @@ const CourseLearningPage = ({ params }) => {
         "Memahami tantangan umum dalam implementasi.",
         "Menyusun strategi implementasi dasar.",
       ],
-      task: "Tugas Modul 2: Analisis satu studi kasus dan jelaskan keberhasilan serta tantangannya.",
-      quiz: "Kuis untuk Modul 2 belum tersedia.",
+      tasks: [
+        {
+          id: "task-2-1",
+          title: "Analisis Studi Kasus Implementasi",
+          date: "Batas Waktu: 30 Des 2023",
+          time: "23:59 WIB",
+        },
+      ],
+      discussions: [], // Belum ada diskusi untuk modul ini
+      quiz: [], // Gunakan array kosong jika tidak ada kuis
       report: "Laporan kemajuan Anda untuk Modul 2.",
       attachments: [
         {
@@ -130,8 +179,16 @@ const CourseLearningPage = ({ params }) => {
         "Mengetahui pentingnya Data Lineage dan Data Catalog.",
         "Mengenal dasar-dasar kepatuhan regulasi data seperti GDPR dan PDP.",
       ],
-      task: "Tugas Modul 3: Jelaskan perbedaan antara MDM dan Data Governance.",
-      quiz: "Kuis untuk modul ini akan segera tersedia.",
+      tasks: [
+        {
+          id: "task-3-1",
+          title: "Perbedaan MDM dan Data Governance",
+          date: "Batas Waktu: 05 Jan 2024",
+          time: "23:59 WIB",
+        },
+      ],
+      discussions: [],
+      quiz: [], // Gunakan array kosong jika tidak ada kuis
       report: "Laporan kemajuan Anda untuk Modul 3.",
       attachments: [],
       videos: [
@@ -194,8 +251,9 @@ const CourseLearningPage = ({ params }) => {
         "Memahami peran otomatisasi dalam Data Governance.",
         "Membandingkan fitur dasar dari berbagai alat.",
       ],
-      task: "Tugas Modul 4: Pilih satu platform dan jelaskan fitur utamanya.",
-      quiz: "Kuis untuk modul ini akan segera tersedia.",
+      tasks: [], // Tidak ada tugas untuk modul ini
+      discussions: [],
+      quiz: [], // Gunakan array kosong jika tidak ada kuis
       report: "Laporan kemajuan Anda untuk Modul 4.",
       attachments: [],
       videos: [
@@ -222,8 +280,9 @@ const CourseLearningPage = ({ params }) => {
         "Mengenal tren masa depan seperti Data Fabric dan Data Mesh.",
         "Mempersiapkan diri untuk tantangan Data Governance di masa depan.",
       ],
-      task: "Tugas Modul 5: Buat kerangka sederhana untuk menghitung ROI data governance.",
-      quiz: "Kuis akhir akan tersedia setelah modul ini selesai.",
+      tasks: [], // Tidak ada tugas untuk modul ini
+      discussions: [],
+      quiz: [], // Gunakan array kosong jika tidak ada kuis
       report: "Laporan akhir kemajuan Anda.",
       attachments: [
         {
@@ -272,6 +331,16 @@ const CourseLearningPage = ({ params }) => {
     setActiveVideoIndex(videoIndex);
   };
 
+  // Fungsi untuk navigasi ke halaman detail tugas
+  const handleStartTask = (taskId) => {
+    router.push(`/user/learn/${params.courseId}/${taskId}`);
+  };
+
+  // Fungsi untuk navigasi ke halaman sambutan kuis
+  const handleStartQuiz = (quizId) => {
+    router.push(`/user/learn/${params.courseId}/${quizId}`);
+  };
+
   return (
     <main className="p-8">
       <Button
@@ -297,7 +366,10 @@ const CourseLearningPage = ({ params }) => {
           <CourseInfoTabs
             description={activeModulePlaylist.description}
             learningObjectives={activeModulePlaylist.learningObjectives}
-            task={activeModulePlaylist.task}
+            tasks={activeModulePlaylist.tasks}
+            onStartTask={handleStartTask}
+            onStartQuiz={handleStartQuiz}
+            discussions={activeModulePlaylist.discussions}
             quiz={activeModulePlaylist.quiz}
             report={activeModulePlaylist.report}
             attachments={
