@@ -7,4 +7,5 @@ export { default as ProgressBar } from './ProgressBar';
 export { default as InfoItem } from './InfoItem';
 export { default as ChecklistItem } from './ChecklistItem';
 export { default as CurriculumItem } from './CurriculumItem';
+export { default as RichTextEditor } from './RichTextEditor';
 
