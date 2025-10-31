@@ -1,11 +1,17 @@
 import React from "react";
 import { Card, Tabs } from "antd";
 import DescriptionTabContent from "./DescriptionTabContent.jsx";
+import DiscussionTabContent from "./DiscussionTabContent.jsx";
+import TaskTabContent from "./TaskTabContent.jsx";
+import QuizTabContent from "./QuizTabContent.jsx";
 
 const CourseInfoTabs = ({
   description,
   learningObjectives,
-  task,
+  tasks,
+  onStartTask,
+  onStartQuiz,
+  discussions,
   quiz,
   report,
   attachments,
@@ -22,10 +28,26 @@ const CourseInfoTabs = ({
         />
       ),
     },
-    { key: "2", label: "Diskusi", children: task },
-    { key: "3", label: "Tugas", children: quiz },
-    { key: "4", label: "Kuis", children: report },
-    { key: "5", label: "Lampiran", children: attachments },
+    {
+      key: "2",
+      label: "Diskusi",
+      children: <DiscussionTabContent discussions={discussions} />,
+    },
+    {
+      key: "3",
+      label: "Tugas",
+      children: <TaskTabContent tasks={tasks} onStartTask={onStartTask} />,
+    },
+    {
+      key: "4",
+      label: "Kuis",
+      children: <QuizTabContent quizzes={quiz} onStartQuiz={onStartQuiz} />,
+    },
+    {
+      key: "5",
+      label: "Lampiran",
+      children: <>{attachments}</>, // Bungkus dengan React.Fragment
+    },
   ];
 
   return (

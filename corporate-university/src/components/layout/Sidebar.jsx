@@ -3,8 +3,8 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { Menu as MenuIcon, User2, LogOut, ChevronDown } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Menu as MenuIcon, User2, LogOut, ChevronDown, Settings, Info, History } from 'lucide-react';
 import { Layout, Menu, Button, Drawer, Dropdown, Avatar } from 'antd';
 import { useAuth } from '@/hooks/auth';
 import NAV_ITEMS from '@/config/navigation';
@@ -14,14 +14,10 @@ const Sidebar = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const pathname = usePathname();
+    const router = useRouter()
     const { logout } = useAuth();
 
     const navItems = NAV_ITEMS;
-
-    const isActive = (href) => {
-        if (!pathname) return false;
-        return pathname.startsWith(href);
-    };
 
     const pageMeta = useMemo(() => getPageMetaByPath(pathname || ''), [pathname]);
 
@@ -133,15 +129,36 @@ const Sidebar = ({ children }) => {
                             menu={{
                                 items: [
                                     {
+                                        key: 'profile',
+                                        label: 'Profil Saya',
+                                        icon: <Settings className="h-4 w-4" />,
+                                        onClick: () => router.push(`/user/profile`),
+                                        className: "!px-4 !py-3 !rounded-2xl"
+                                    },
+                                    {
+                                        key: 'panduan',
+                                        label: 'Panduan',
+                                        icon: <Info className="h-4 w-4" />,
+                                        onClick: () => router.push(`/user/guide`),
+                                        className: "!px-4 !py-3 !rounded-2xl"
+                                    },
+                                    {
+                                        key: 'history-learning',
+                                        label: 'Riwayat Pembelajaran',
+                                        icon: <History className="h-4 w-4" />,
+                                        onClick: () => router.push(`/user/history/learning`),
+                                        className: "!px-4 !py-3 !rounded-2xl"
+                                    },
+                                    {
                                         key: 'logout',
                                         label: 'Keluar',
                                         icon: <LogOut className="h-4 w-4" />,
+                                        onClick: () => logout(),
+                                        className: "!text-red-500 hover:!bg-red-500/10 !px-4 !py-3 !rounded-2xl"
                                     },
                                 ],
-                                onClick: ({ key }) => {
-                                    if (key === 'logout') logout();
-                                },
                             }}
+                            placement='bottomRight'
                             open={isProfileOpen}
                             onOpenChange={setIsProfileOpen}
                         >
