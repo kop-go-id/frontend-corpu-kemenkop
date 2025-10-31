@@ -8,4 +8,5 @@ export { default as InfoItem } from './InfoItem';
 export { default as ChecklistItem } from './ChecklistItem';
 export { default as CurriculumItem } from './CurriculumItem';
 export { default as Carousel } from './Careousel';
+export { default as Statistic } from './Statistic';
 
