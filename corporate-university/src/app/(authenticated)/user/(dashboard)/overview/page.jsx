@@ -17,13 +17,13 @@ const OverviewPage = () => {
     <div className="space-y-8 pb-8">
       {/* Ringkasan Kelas Section */}
       <section>
-        <h2 className="text-2xl font-bold text-alt-black mb-6">Ringkasan Kelas</h2>
+        <h2 className="text-2xl font-bold text-primary mb-6">Ringkasan Kelas</h2>
         <Statistic data={classStatistics} />
       </section>
 
       {/* Diskusi Terbaru Section */}
       <section>
-        <h2 className="text-2xl font-bold text-alt-black mb-6">Diskusi Terbaru</h2>
+        <h2 className="text-2xl font-bold text-primary mb-6">Diskusi Terbaru</h2>
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <DiscussionItem thread={latestDiscussion} />
           
@@ -42,7 +42,7 @@ const OverviewPage = () => {
 
       {/* Berita Kegiatan Section */}
       <section>
-        <h2 className="text-2xl font-bold text-alt-black mb-6">Berita Kegiatan</h2>
+        <h2 className="text-2xl font-bold text-primary mb-6">Berita Kegiatan</h2>
         <Carousel slides={activityNews} />
       </section>
     </div>
