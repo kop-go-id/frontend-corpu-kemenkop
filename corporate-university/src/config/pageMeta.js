@@ -7,6 +7,13 @@ export const DEFAULT_PAGE_META = {
 
 const META_RULES = [
   {
+    match: (path) => path === '/user/overview',
+    meta: {
+      title: 'Beranda',
+      description: 'Ringaksan aktivitas anda',
+    },
+  },
+  {
     match: (path) => path === '/user/courses',
     meta: {
       title: 'Semua Kelas',
