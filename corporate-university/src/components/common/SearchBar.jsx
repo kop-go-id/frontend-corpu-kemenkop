@@ -14,35 +14,44 @@ const SearchBar = memo(({
   onCategoryChange,
   levelValue,
   onLevelChange,
+  typeValue,
+  onTypeChange,
   onReset,
   onSearch,
   categories = [],
   levels = [],
+  types = [],
+  disabled = false,
 }) => {
+  // Check if any filter is active (not default)
+  const hasActiveFilter = searchValue !== '' || categoryValue !== 'all' || levelValue !== 'all' || typeValue !== 'all';
+
   return (
     <div className="bg-white rounded-lg p-3 mb-6 shadow-sm border border-gray-100">
-      <div className="flex flex-col lg:flex-row gap-3 items-start lg:items-center">
-        <div className="flex gap-2 flex-1 w-full lg:w-auto">
+      <div className="flex flex-col lg:flex-row gap-2 items-start lg:items-center">
+        <div className="flex gap-2 w-full lg:flex-1 lg:max-w-[240px]">
           <Input
             placeholder="Cari Kelas"
             value={searchValue}
             onChange={(e) => onSearchChange(e.target.value)}
             onPressEnter={onSearch}
             size="middle"
+            disabled={disabled}
             className="!h-9 flex-1"
           />
           <AntButton
             type="primary"
             size="middle"
             onClick={onSearch}
+            disabled={disabled}
             icon={<Search className="h-3.5 w-3.5" />}
-            className="!bg-primary hover:!bg-primary/90 !border-0 !h-9 !px-5 !font-semibold !text-sm"
+            className="!bg-primary hover:!bg-primary/90 !border-0 !h-9 !px-3 !font-semibold !text-sm flex-shrink-0"
           >
             Cari
           </AntButton>
         </div>
 
-        <div className="flex items-center gap-2 w-full lg:w-auto">
+        <div className="flex items-center gap-1.5 w-full lg:w-auto flex-shrink-0">
           <label className="text-xs font-medium text-gray-700 whitespace-nowrap">
             Kategori:
           </label>
@@ -50,7 +59,8 @@ const SearchBar = memo(({
             value={categoryValue}
             onChange={onCategoryChange}
             size="middle"
-            className="w-full lg:w-36 [&_.ant-select-selector]:!h-9 [&_.ant-select-selector]:!flex [&_.ant-select-selector]:!items-center [&_.ant-select-selection-item]:!text-sm"
+            disabled={disabled}
+            className="w-full lg:w-32 [&_.ant-select-selector]:!h-9 [&_.ant-select-selector]:!flex [&_.ant-select-selector]:!items-center [&_.ant-select-selection-item]:!text-sm"
           >
             <Option value="all">Semua</Option>
             {categories.map((cat) => (
@@ -61,7 +71,7 @@ const SearchBar = memo(({
           </Select>
         </div>
 
-        <div className="flex items-center gap-2 w-full lg:w-auto">
+        <div className="flex items-center gap-1.5 w-full lg:w-auto flex-shrink-0">
           <label className="text-xs font-medium text-gray-700 whitespace-nowrap">
             Tingkat:
           </label>
@@ -69,7 +79,8 @@ const SearchBar = memo(({
             value={levelValue}
             onChange={onLevelChange}
             size="middle"
-            className="w-full lg:w-36 [&_.ant-select-selector]:!h-9 [&_.ant-select-selector]:!flex [&_.ant-select-selector]:!items-center [&_.ant-select-selection-item]:!text-sm"
+            disabled={disabled}
+            className="w-full lg:w-32 [&_.ant-select-selector]:!h-9 [&_.ant-select-selector]:!flex [&_.ant-select-selector]:!items-center [&_.ant-select-selection-item]:!text-sm"
           >
             <Option value="all">Semua</Option>
             {levels.map((level) => (
@@ -80,15 +91,38 @@ const SearchBar = memo(({
           </Select>
         </div>
 
-        <AntButton
-          size="middle"
-          danger
-          onClick={onReset}
-          icon={<X className="h-3.5 w-3.5" />}
-          className="!h-9 !px-4 lg:w-auto w-full !font-semibold !text-sm"
-        >
-          Reset
-        </AntButton>
+        <div className="flex items-center gap-1.5 w-full lg:w-auto flex-shrink-0">
+          <label className="text-xs font-medium text-gray-700 whitespace-nowrap">
+            Tipe:
+          </label>
+          <Select
+            value={typeValue}
+            onChange={onTypeChange}
+            size="middle"
+            disabled={disabled}
+            className="w-full lg:w-32 [&_.ant-select-selector]:!h-9 [&_.ant-select-selector]:!flex [&_.ant-select-selector]:!items-center [&_.ant-select-selection-item]:!text-sm"
+          >
+            <Option value="all">Semua</Option>
+            {types.map((type) => (
+              <Option key={type.value} value={type.value}>
+                {type.label}
+              </Option>
+            ))}
+          </Select>
+        </div>
+
+        {hasActiveFilter && (
+          <AntButton
+            size="middle"
+            danger
+            onClick={onReset}
+            disabled={disabled}
+            icon={<X className="h-3.5 w-3.5" />}
+            className="!h-9 !px-3 lg:w-auto w-full !font-semibold !text-sm flex-shrink-0"
+          >
+            Reset
+          </AntButton>
+        )}
       </div>
     </div>
   );
@@ -103,6 +137,8 @@ SearchBar.propTypes = {
   onCategoryChange: PropTypes.func.isRequired,
   levelValue: PropTypes.string.isRequired,
   onLevelChange: PropTypes.func.isRequired,
+  typeValue: PropTypes.string,
+  onTypeChange: PropTypes.func,
   onReset: PropTypes.func.isRequired,
   onSearch: PropTypes.func,
   categories: PropTypes.arrayOf(
@@ -117,6 +153,13 @@ SearchBar.propTypes = {
       label: PropTypes.string.isRequired,
     })
   ),
+  types: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ),
+  disabled: PropTypes.bool,
 };
 
 export default SearchBar;

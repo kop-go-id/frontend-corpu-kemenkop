@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { Spin } from 'antd';
 import CourseHero from '@/components/modules/course-detail/CourseHero';
 import LearningOutcomes from '@/components/modules/course-detail/LearningOutcomes';
 import AboutCourse from '@/components/modules/course-detail/AboutCourse';
@@ -51,13 +52,33 @@ const CourseDetailPage = () => {
   const params = useParams();
   const router = useRouter();
   const courseId = params?.courseId;
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Simulate API call - replace with actual API call later
+  useEffect(() => {
+    // setIsLoading(true);
+    // fetchCourseDetail(courseId).then(() => setIsLoading(false));
+  }, [courseId]);
 
   const handleEnroll = () => {
+    if (isLoading) return;
     router.push(`/user/pretest/${courseId}/welcome`);
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex justify-center items-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 relative">
+      {isLoading && (
+        <div className="absolute inset-0 bg-white/50 z-50 cursor-wait" />
+      )}
+      
       <CourseHero course={COURSE_DATA} onEnroll={handleEnroll} />
       <div className="container mx-auto px-4 lg:px-8 py-8 lg:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">

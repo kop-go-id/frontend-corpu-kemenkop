@@ -13,6 +13,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Kepemimpinan',
     level: 'Mahir',
+    type: 'Daring',
     image: '/images/landing-page/coder.svg',
   },
   {
@@ -23,6 +24,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Manajemen',
     level: 'Menengah',
+    type: 'Luring',
     image: '/images/landing-page/rocket.svg',
   },
   {
@@ -33,6 +35,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Digital',
     level: 'Pemula',
+    type: 'Daring',
     image: '/images/landing-page/coder.svg',
   },
   {
@@ -43,6 +46,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Kepemimpinan',
     level: 'Mahir',
+    type: 'Luring',
     image: '/images/landing-page/rocket.svg',
   },
   {
@@ -53,6 +57,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Manajemen',
     level: 'Menengah',
+    type: 'Daring',
     image: '/images/landing-page/coder.svg',
   },
   {
@@ -63,6 +68,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Digital',
     level: 'Pemula',
+    type: 'Luring',
     image: '/images/landing-page/rocket.svg',
   },
   {
@@ -73,6 +79,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Kepemimpinan',
     level: 'Mahir',
+    type: 'Daring',
     image: '/images/landing-page/coder.svg',
   },
   {
@@ -83,6 +90,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Manajemen',
     level: 'Menengah',
+    type: 'Luring',
     image: '/images/landing-page/rocket.svg',
   },
   {
@@ -93,6 +101,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Digital',
     level: 'Pemula',
+    type: 'Daring',
     image: '/images/landing-page/coder.svg',
   },
   {
@@ -103,6 +112,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Digital',
     level: 'Pemula',
+    type: 'Luring',
     image: '/images/landing-page/coder.svg',
   },
   {
@@ -113,6 +123,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Digital',
     level: 'Pemula',
+    type: 'Daring',
     image: '/images/landing-page/coder.svg',
   },
   {
@@ -123,6 +134,7 @@ const MOCK_COURSES = [
     modules: 12,
     category: 'Digital',
     level: 'Pemula',
+    type: 'Luring',
     image: '/images/landing-page/coder.svg',
   },
 ];
@@ -139,18 +151,24 @@ const LEVELS = [
   { value: 'mahir', label: 'Mahir' },
 ];
 
+const TYPES = [
+  { value: 'daring', label: 'Daring' },
+  { value: 'luring', label: 'Luring' },
+];
+
 const ITEMS_PER_PAGE = 9;
 
 const CoursesPage = () => {
   const [searchValue, setSearchValue] = useState('');
   const [categoryValue, setCategoryValue] = useState('all');
   const [levelValue, setLevelValue] = useState('all');
+  const [typeValue, setTypeValue] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading] = useState(false); 
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchValue, categoryValue, levelValue]);
+  }, [searchValue, categoryValue, levelValue, typeValue]);
 
   const filteredCourses = useMemo(() => {
     return MOCK_COURSES.filter((course) => {
@@ -169,9 +187,13 @@ const CoursesPage = () => {
         levelValue === 'all' ||
         course.level.toLowerCase() === levelValue.toLowerCase();
 
-      return matchesSearch && matchesCategory && matchesLevel;
+      const matchesType =
+        typeValue === 'all' ||
+        course.type.toLowerCase() === typeValue.toLowerCase();
+
+      return matchesSearch && matchesCategory && matchesLevel && matchesType;
     });
-  }, [searchValue, categoryValue, levelValue]);
+  }, [searchValue, categoryValue, levelValue, typeValue]);
 
   const paginatedCourses = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -183,6 +205,7 @@ const CoursesPage = () => {
     setSearchValue('');
     setCategoryValue('all');
     setLevelValue('all');
+    setTypeValue('all');
   }, []);
 
   const handleSearch = useCallback(() => {
@@ -194,7 +217,7 @@ const CoursesPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="relative">
       <SearchBar
         searchValue={searchValue}
         onSearchChange={setSearchValue}
@@ -202,10 +225,14 @@ const CoursesPage = () => {
         onCategoryChange={setCategoryValue}
         levelValue={levelValue}
         onLevelChange={setLevelValue}
+        typeValue={typeValue}
+        onTypeChange={setTypeValue}
         onReset={handleReset}
         onSearch={handleSearch}
         categories={CATEGORIES}
         levels={LEVELS}
+        types={TYPES}
+        disabled={isLoading}
       />
 
       {isLoading ? (
