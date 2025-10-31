@@ -5,10 +5,13 @@ import { List, Button, Divider } from 'antd'
 import { Plus } from 'lucide-react'
 import { DiscussionItem } from '@/components/modules/discussion'
 import { discussionThreads } from '@/datas/dummies/discussion'
+import { useRouter } from 'next/navigation'
 
 const DiscussionPage = () => {
+  const router = useRouter()
+
   const handleCreate = () => {
-    alert('Create new discussion')
+    router.push(`/user/discussion/new`)
   }
 
   const handleReply = (thread) => {
