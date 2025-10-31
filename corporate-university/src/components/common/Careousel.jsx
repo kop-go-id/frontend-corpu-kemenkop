@@ -1,0 +1,187 @@
+'use client'
+
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { useWindowSize } from '@/hooks/common'
+import Image from 'next/image'
+
+/**
+ * Shared carousel component.
+ * Expects `slides` array with items: { id, title, description, src, onClick? }
+ */
+const Carousel = ({ slides = [] }) => {
+    const [activeIndex, setActiveIndex] = useState(0)
+    const [itemsPerPage, setItemsPerPage] = useState(1)
+    const viewportRef = useRef(null)
+    const isPointerDownRef = useRef(false)
+    const startXRef = useRef(0)
+    const [dragDeltaPx, setDragDeltaPx] = useState(0)
+
+    const goTo = (index) => {
+        const max = Math.max(0, pages.length - 1)
+        setActiveIndex(Math.min(Math.max(index, 0), max))
+    }
+    const goPrev = () => goTo(activeIndex - 1)
+    const goNext = () => goTo(activeIndex + 1)
+
+    const { width } = useWindowSize()
+    useEffect(() => {
+        if (width === undefined) return
+        if (width >= 1024) setItemsPerPage(3)
+        else if (width >= 568) setItemsPerPage(2)
+        else setItemsPerPage(1)
+    }, [width])
+
+    const pages = useMemo(() => {
+        const totalPages = Math.ceil(slides.length / itemsPerPage)
+        return Array.from({ length: totalPages }, (_, pageIndex) =>
+            slides.slice(
+                pageIndex * itemsPerPage,
+                pageIndex * itemsPerPage + itemsPerPage
+            )
+        )
+    }, [slides, itemsPerPage])
+
+    // Keep activeIndex within range when itemsPerPage changes
+    useEffect(() => {
+        if (activeIndex > pages.length - 1) {
+            setActiveIndex(Math.max(0, pages.length - 1))
+        }
+    }, [pages.length, activeIndex])
+
+    // Pointer/drag handlers
+    const onPointerDown = (e) => {
+        isPointerDownRef.current = true
+        startXRef.current = e.clientX ?? e.touches?.[0]?.clientX ?? 0
+        setDragDeltaPx(0)
+    }
+
+    const onPointerMove = (e) => {
+        if (!isPointerDownRef.current) return
+        const clientX = e.clientX ?? e.touches?.[0]?.clientX ?? 0
+        setDragDeltaPx(clientX - startXRef.current)
+    }
+
+    const onPointerUp = () => {
+        if (!isPointerDownRef.current) return
+        const width = viewportRef.current?.clientWidth ?? 1
+        const threshold = Math.max(50, width * 0.15)
+        if (dragDeltaPx <= -threshold) {
+            goNext()
+        } else if (dragDeltaPx >= threshold) {
+            goPrev()
+        }
+        isPointerDownRef.current = false
+        setDragDeltaPx(0)
+    }
+
+    return (
+        <div className="relative">
+            <div
+                ref={viewportRef}
+                className="overflow-hidden rounded-2xl select-none"
+                onMouseDown={onPointerDown}
+                onMouseMove={onPointerMove}
+                onMouseUp={onPointerUp}
+                onMouseLeave={onPointerUp}
+                onTouchStart={onPointerDown}
+                onTouchMove={onPointerMove}
+                onTouchEnd={onPointerUp}
+            >
+                <div
+                    className="flex transition-transform duration-500 ease-out"
+                    style={{
+                        transform: `translateX(calc(-${activeIndex * 100}% + ${dragDeltaPx}px))`,
+                    }}
+                >
+                    {pages.map((page, pageIdx) => (
+                        <div key={pageIdx} className="min-w-full px-1 sm:px-2">
+                            <div
+                                className="grid gap-4"
+                                style={{
+                                    gridTemplateColumns: `repeat(${itemsPerPage}, minmax(0, 1fr))`,
+                                }}
+                            >
+                                {page.map((slide) => {
+                                    const Wrapper = slide.onClick ? 'button' : 'div'
+                                    return (
+                                        <div key={slide.id} className="rounded-2xl bg-white shadow/10">
+                                            {/* Image area */}
+                                            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-gray-200">
+                                                <Image
+                                                    src={slide.src}
+                                                    alt={slide.title}
+                                                    fill
+                                                    className="object-cover pointer-events-none select-none"
+                                                    draggable={false}
+                                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                                    priority={slide.id === 1}
+                                                />
+                                            </div>
+                                            {/* Caption */}
+                                            <Wrapper
+                                                type={slide.onClick ? 'button' : undefined}
+                                                onClick={slide.onClick}
+                                                className={
+                                                    'block w-full text-left p-5 focus:outline-none ' +
+                                                    (slide.onClick ? 'hover:bg-gray-50 rounded-b-2xl' : '')
+                                                }
+                                            >
+                                                <p className="text-sm font-semibold text-gray-700">
+                                                    {slide.title}
+                                                </p>
+                                                <p className="mt-1 text-xs text-gray-500 leading-relaxed">
+                                                    {slide.description}
+                                                </p>
+                                            </Wrapper>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Arrows */}
+            <button
+                type="button"
+                aria-label="Previous"
+                onClick={goPrev}
+                className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 text-gray-700 shadow hover:bg-white"
+            >
+                <span className="block h-3 w-3 rotate-45 border-b-2 border-l-2 border-current" />
+            </button>
+            <button
+                type="button"
+                aria-label="Next"
+                onClick={goNext}
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 text-gray-700 shadow hover:bg-white"
+            >
+                <span className="block h-3 w-3 -rotate-45 border-b-2 border-r-2 border-current" />
+            </button>
+
+            {/* Dots */}
+            <div className="mt-5 flex items-center justify-center gap-3">
+                {pages.map((_, idx) => {
+                    const isActive = idx === activeIndex
+                    return (
+                        <button
+                            key={idx}
+                            type="button"
+                            aria-label={`Go to slide ${idx + 1}`}
+                            onClick={() => setActiveIndex(idx)}
+                            className={
+                                'h-2.5 w-2.5 rounded-full transition-colors ' +
+                                (isActive ? 'bg-secondary' : 'bg-white')
+                            }
+                        />
+                    )
+                })}
+            </div>
+        </div>
+    )
+}
+
+export default Carousel
+
+
