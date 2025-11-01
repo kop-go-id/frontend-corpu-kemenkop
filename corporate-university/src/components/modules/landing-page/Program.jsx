@@ -4,27 +4,60 @@ import { useState } from 'react'
 
 const tabs = [
   { key: 'asn', label: 'Level ASN Internal' },
-  { key: 'mitra', label: 'Level Mitra Eksternal' },
-  { key: 'publik', label: 'Level Publik dan Akademik' },
+  { key: 'partner', label: 'Level Mitra Eksternal' },
+  { key: 'public', label: 'Level Publik dan Akademik' },
 ]
 
 const asnTracks = [
   {
-    title: 'Leadership Track',
+    title: 'Kepemimpinan',
     items: ['Manajerial', 'Reformasi Birokrasi', 'SPBE'],
   },
   {
-    title: 'Functional Track',
+    title: 'Fungsional',
     items: ['Jabatan fungsional koperasi', 'Pengawas', 'Penyuluh'],
   },
   {
-    title: 'Digital Track',
+    title: 'Digitalisasi',
     items: ['Literasi digital', 'Data governance', 'SIMKOPDES', 'KDMP Mobile'],
   },
 ]
 
+const partnerTracks = [
+  {
+    title: 'Akademi Asisten Bisnis (BA/KDMMP)',
+    items: [],
+  },
+  {
+    title: 'Pengembangan Talenta Koperasi Indonesia',
+    items: [],
+  },
+  {
+    title: 'Akademi OneCoop',
+    items: ['Pembelajaran integratif dengan BUMN, DJP, AHU, dan Kemendesa'],
+  },
+]
+
+const publicTracks = [
+  {
+    title: 'Kelas Microcredential',
+    items: [],
+  },
+  {
+    title: 'Pusat Riset',
+    items: ['Riset kebijakan koperasi dan digitalisasi daerah'],
+  },
+]
+
+const tracksConfig = {
+  asn: { tracks: asnTracks, cols: 'md:grid-cols-3' },
+  partner: { tracks: partnerTracks, cols: 'md:grid-cols-3' },
+  public: { tracks: publicTracks, cols: 'md:grid-cols-2' },
+}
+
 const Program = () => {
   const [activeKey, setActiveKey] = useState('asn')
+  const { tracks, cols } = tracksConfig[activeKey] || tracksConfig.asn
 
   return (
     <section id="program" className="bg-white">
@@ -55,24 +88,20 @@ const Program = () => {
 
         {/* Content */}
         <div className="mt-4 rounded-xl border border-secondary p-6">
-          {activeKey === 'asn' && (
-            <div className="grid gap-8 md:grid-cols-3">
-              {asnTracks.map((track) => (
-                <div key={track.title}>
-                  <h3 className="text-lg font-semibold text-secondary">{track.title}</h3>
+          <div className={`grid gap-8 ${cols}`}>
+            {tracks.map((track) => (
+              <div key={track.title}>
+                <h3 className="text-lg font-semibold text-secondary">{track.title}</h3>
+                {track.items.length > 0 && (
                   <ul className="mt-3 space-y-2 text-sm text-gray-700">
                     {track.items.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {activeKey !== 'asn' && (
-            <div className="py-6 text-sm text-gray-500">Konten akan segera tersedia.</div>
-          )}
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
