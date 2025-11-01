@@ -19,27 +19,27 @@ const NewDiscussionForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     if (!formData.recipient.trim()) {
       message.error('Mohon isi kolom "Kepada"')
       return
     }
-    
+
     if (!formData.title.trim()) {
       message.error('Mohon isi judul diskusi')
       return
     }
-    
+
     if (!formData.content.trim() || formData.content === '<p><br></p>') {
       message.error('Mohon isi konten diskusi')
       return
     }
 
     setLoading(true)
-    
+
     try {
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
+
       message.success('Diskusi berhasil dibuat!')
       router.push('/user/discussion')
     } catch (error) {
@@ -51,27 +51,9 @@ const NewDiscussionForm = () => {
   }
 
   return (
-    <div className="w-full h-full bg-[#f5f5f5] min-h-screen p-4 sm:p-6 md:p-8">
-      <div className="max-w-5xl mx-auto">
-        <div className="hidden md:block mb-6">
-          <Title level={2} className="!text-[#065366] !mb-2">
-            Diskusi
-          </Title>
-          <Text className="!text-gray-500">
-            Bergabung dan berdiskusi bersama peserta lainnya
-          </Text>
-        </div>
-
+    <div className="w-full h-full  min-h-screen">
+      <div className="mx-auto">
         <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6 md:p-8">
-          <div className="block md:hidden mb-4">
-            <Title level={3} className="!text-[#065366] !mb-1 !text-xl">
-              Diskusi
-            </Title>
-            <Text className="!text-gray-500 !text-sm">
-              Bergabung dan berdiskusi bersama peserta lainnya
-            </Text>
-          </div>
-
           <Title level={3} className="!text-[#065366] !mb-4 !text-xl sm:!text-2xl">
             Buat Diskusi Baru
           </Title>
@@ -119,7 +101,6 @@ const NewDiscussionForm = () => {
               <Button
                 type="submit"
                 variant="primary"
-                size="lg"
                 disabled={loading}
                 className="!w-full sm:!w-auto !min-w-[120px]"
               >

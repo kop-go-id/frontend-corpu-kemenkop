@@ -35,7 +35,7 @@ const META_RULES = [
     },
   },
   {
-    match: (path) => path === '/user/discussion',
+    match: (path) => path === '/user/discussion' || path.startsWith('/user/discussion/'),
     meta: {
       title: 'Diskusi',
       description: 'Bergabung dan berdiskusi dengan peserta lainnya',
