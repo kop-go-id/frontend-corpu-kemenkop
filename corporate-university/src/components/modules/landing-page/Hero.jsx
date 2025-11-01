@@ -1,7 +1,11 @@
+'use client'
+
 import React from 'react'
 import Image from 'next/image'
+import { handleHashClick } from '@/utils/helpers'
 
 const Hero = () => {
+
   return (
     <section
       className="relative"
@@ -28,6 +32,7 @@ const Hero = () => {
             <div className="mt-8">
               <a
                 href="#learn-more"
+                onClick={(e) => handleHashClick(e, '#learn-more')}
                 className="inline-flex items-center rounded-md bg-[#F0B51A] px-6 py-3 font-semibold text-[#0a3e46] transition-colors hover:bg-[#e2a407]"
               >
                 Pelajari Lebih Lanjut

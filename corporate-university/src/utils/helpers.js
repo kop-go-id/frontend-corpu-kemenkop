@@ -74,3 +74,29 @@ export const truncateText = (text, maxLength) => {
   if (text.length <= maxLength) return text;
   return text.substr(0, maxLength) + '...';
 };
+
+// Smooth scroll to hash element
+export const scrollToHash = (hash, options = {}) => {
+  const defaultOptions = {
+    behavior: 'smooth',
+    block: 'start',
+  };
+  
+  if (hash && hash.startsWith('#')) {
+    const element = document.querySelector(hash);
+    if (element) {
+      element.scrollIntoView({ ...defaultOptions, ...options });
+      return true;
+    }
+  }
+  return false;
+};
+
+// Handle hash link click event
+export const handleHashClick = (e, href, options = {}) => {
+  if (href && href.startsWith('#')) {
+    e.preventDefault();
+    return scrollToHash(href, options);
+  }
+  return false;
+};

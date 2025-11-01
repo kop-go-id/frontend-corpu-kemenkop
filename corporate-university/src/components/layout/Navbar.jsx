@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button, Skeleton } from 'antd';
 import { useAuth } from '@/hooks/auth';
+import { handleHashClick } from '@/utils/helpers';
 
 const menuItems = [
   { key: 'about', href: '#about', label: 'Tentang' },
@@ -14,6 +15,7 @@ const menuItems = [
 
 const Navbar = () => {
   const { isAuthenticated, isLoading } = useAuth();
+
   return (
     <nav className="sticky top-0 z-50 bg-primary text-white py-5">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-4 px-4">
@@ -33,6 +35,7 @@ const Navbar = () => {
             <Link
               key={item.key}
               href={item.href}
+              onClick={(e) => handleHashClick(e, item.href)}
               className="text-sm text-white/90 transition-colors hover:text-white"
             >
               {item.label}
