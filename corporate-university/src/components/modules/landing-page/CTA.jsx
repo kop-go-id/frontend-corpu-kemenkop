@@ -3,9 +3,24 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Button } from 'antd'
+import { useAuth } from '@/hooks/auth'
 
 const CTA = () => {
+  const router = useRouter()
+  const { isAuthenticated, isLoading } = useAuth()
+
+  const handleButtonClick = (e) => {
+    e.preventDefault()
+    
+    if (isAuthenticated) {
+      router.push('/user/overview')
+    } else {
+      router.push('/login')
+    }
+  }
+
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-5xl px-6 py-12 lg:py-20 text-center">
@@ -28,7 +43,10 @@ const CTA = () => {
         </p>
 
         <div className="mt-6">
-          <Link href="/login">
+          <Link 
+            href={isAuthenticated ? '/user/overview' : '/login'}
+            onClick={handleButtonClick}
+          >
             <Button type="primary" size="large" className='!bg-secondary !border-0 !shadow-none'>
               Mulai Belajar Sekarang
             </Button>

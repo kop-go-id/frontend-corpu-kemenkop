@@ -27,7 +27,7 @@ const Program = () => {
   const [activeKey, setActiveKey] = useState('asn')
 
   return (
-    <section className="bg-white">
+    <section id="program" className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-10">
         <h2 className="text-xl font-semibold text-primary">Struktur Program Pembelajaran</h2>
 

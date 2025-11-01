@@ -7,9 +7,9 @@ import { Button, Skeleton } from 'antd';
 import { useAuth } from '@/hooks/auth';
 
 const menuItems = [
-  { key: 'about', href: '/tentang', label: 'Tentang' },
-  { key: 'program', href: '/program', label: 'Program' },
-  { key: 'contact', href: '/kontak-kami', label: 'Kontak Kami' },
+  { key: 'about', href: '#about', label: 'Tentang' },
+  { key: 'program', href: '#program', label: 'Program' },
+  { key: 'contact', href: '#', label: 'Kontak Kami' },
 ];
 
 const Navbar = () => {
