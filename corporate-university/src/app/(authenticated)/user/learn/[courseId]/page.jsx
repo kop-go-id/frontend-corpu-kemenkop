@@ -33,11 +33,11 @@ const CourseLearningPage = ({ params }) => {
   };
 
   const handleStartTask = (taskId) => {
-    router.push(`/user/learn/${params.courseId}/${taskId}`);
+    router.push(`/user/learn/${params.courseId}/task/${taskId}`);
   };
 
   const handleStartQuiz = (quizId) => {
-    router.push(`/user/learn/${params.courseId}/${quizId}`);
+    router.push(`/user/learn/${params.courseId}/quiz/${quizId}/welcome`);
   };
 
   return (
