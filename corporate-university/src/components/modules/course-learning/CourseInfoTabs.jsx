@@ -4,6 +4,7 @@ import DescriptionTabContent from "./DescriptionTabContent.jsx";
 import DiscussionTabContent from "./DiscussionTabContent.jsx";
 import TaskTabContent from "./TaskTabContent.jsx";
 import QuizTabContent from "./QuizTabContent.jsx";
+import AttachmentTabContent from "./AttachmentTabContent.jsx";
 
 const CourseInfoTabs = ({
   description,
@@ -46,7 +47,7 @@ const CourseInfoTabs = ({
     {
       key: "5",
       label: "Lampiran",
-      children: <>{attachments}</>, // Bungkus dengan React.Fragment
+      children: <AttachmentTabContent attachments={attachments} />,
     },
   ];
 

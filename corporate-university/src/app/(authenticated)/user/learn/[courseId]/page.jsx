@@ -7,7 +7,6 @@ import VideoPlayerSection from "@/components/modules/course-learning/VideoPlayer
 import ModulePlaylistCard from "@/components/modules/course-learning/ModulePlaylistCard.jsx";
 import ModuleProgressCard from "@/components/modules/course-learning/ModuleProgressCard.jsx";
 import CourseInfoTabs from "@/components/modules/course-learning/CourseInfoTabs.jsx";
-import AttachmentItem from "@/components/modules/course-learning/AttachmentItem.jsx";
 import { courseData } from "@/datas/dummies/courseLearning.js";
 
 const CourseLearningPage = ({ params }) => {
@@ -51,7 +50,6 @@ const CourseLearningPage = ({ params }) => {
         Kembali
       </Button>
       <Row gutter={[16, 16]}>
-        { }
         <Col span={18}>
           <VideoPlayerSection
             currentVideoTitle={activeVideo.videoTitle}
@@ -70,17 +68,9 @@ const CourseLearningPage = ({ params }) => {
             discussions={activeModulePlaylist.discussions}
             quiz={activeModulePlaylist.quiz}
             report={activeModulePlaylist.report}
-            attachments={
-              activeModulePlaylist.attachments.length > 0
-                ? activeModulePlaylist.attachments.map((att, index) => (
-                  <AttachmentItem key={index} {...att} />
-                ))
-                : "Tidak ada lampiran untuk bab ini."
-            }
+            attachments={activeModulePlaylist.attachments}
           />
         </Col>
-
-        { }
         <Col span={6}>
           <ModulePlaylistCard
             modulePlaylists={courseData}
