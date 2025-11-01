@@ -24,7 +24,7 @@ module.exports = {
         'alt-red': '#a52525',
         'alt-black': '#121212',
         'alt-beige': '#e9d6a6',
-        solitude: '#fafafa',
+        solitude: '#f2f3f7',
       },
     },
   },
