@@ -38,8 +38,8 @@ const Sidebar = ({ children }) => {
                     aria-label="Open sidebar"
                     type="text"
                     onClick={() => setIsOpen(true)}
-                    className="text-white"
-                    icon={<MenuIcon className="h-5 w-5" />}
+                    icon={<MenuIcon className="h-5 w-5 text-white" />}
+                    className='!text-white'
                 />
             </div>
 
@@ -96,7 +96,6 @@ const Sidebar = ({ children }) => {
                                 width={150}
                                 height={40}
                             />
-                            <Button type="text" className="text-white" onClick={() => setIsOpen(false)}>Close</Button>
                         </div>
                         <div className="px-2 h-[calc(100%-56px)] overflow-y-auto">
                             <Menu
