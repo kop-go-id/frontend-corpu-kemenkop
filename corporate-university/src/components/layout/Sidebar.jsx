@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { Menu as MenuIcon, User2, LogOut, ChevronDown, Settings, Info, History } from 'lucide-react';
+import { Menu as MenuIcon, User2, LogOut, ChevronDown, Settings, Info, History, X } from 'lucide-react';
 import { Layout, Menu, Button, Drawer, Dropdown, Avatar } from 'antd';
 import { useAuth } from '@/hooks/auth';
 import NAV_ITEMS from '@/config/navigation';
@@ -83,21 +83,16 @@ const Sidebar = ({ children }) => {
                     className="lg:hidden"
                     placement="right"
                     width={288}
-                    bodyStyle={{ padding: 0, background: 'transparent' }}
                     styles={{ body: { padding: 0 } }}
                     open={isOpen}
+                    classNames={{
+                        header: '!bg-primary !text-white'
+                    }}
+                    closeIcon={<X className="h-6 w-6 text-white" />}
                     onClose={() => setIsOpen(false)}
                 >
-                    <div className="h-full bg-primary p-4">
-                        <div className="mb-2 flex items-center justify-between">
-                            <Image
-                                src="/logos/corpu-light.svg"
-                                alt="Kemenkop Corporate University"
-                                width={150}
-                                height={40}
-                            />
-                        </div>
-                        <div className="px-2 h-[calc(100%-56px)] overflow-y-auto">
+                    <div className="h-full bg-primary px-2">
+                        <div className="h-[calc(100%-56px)] overflow-y-auto">
                             <Menu
                                 mode="inline"
                                 selectable
